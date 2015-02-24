@@ -16,6 +16,6 @@ describe("Tutorial", function() {
 
     // id should be defined
     expect(tutorial.id).toEqual("1");
-    expect(Tutorials.insert).toHaveBeenCalledWith({name: "Tutorial 1", capacity: 20}, jasmine.any(Function));
+    expect(Tutorials.insert).toHaveBeenCalledWith({name: "Tutorial 1", capacity: 20, owner: null}, jasmine.any(Function));
   });
 });
