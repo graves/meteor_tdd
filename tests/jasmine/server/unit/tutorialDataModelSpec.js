@@ -19,6 +19,33 @@ describe("Tutorial", function() {
     expect(tutorial.id).toEqual("1");
     expect(Tutorials.insert).toHaveBeenCalledWith({name: "Tutorial 1", capacity: 20, owner: null}, jasmine.any(Function));
   });
+
+  it("should not be deleted if it has active registrations", function() {
+    spyOn(Roles, "userIsInRole").and.returnValue(true);
+    spyOn(Tutorials, "remove");
+    spyOn(TutorialRegistrations, "find").and.returnValue({count: function() { return 2 }});
+
+    try {
+      Meteor.methodMap.removeTutorial("1");
+    }
+    catch(ex) {
+      expect(ex).toBeDefined();
+    }
+    expect(Meteor.methodMap.removeTutorial).toThrow();
+    expect(TutorialRegistrations.find).toHaveBeenCalledWith({tutorialId: "1"});
+    expect(Tutorials.remove).not.toHaveBeenCalled();
+  });
+
+  it("should not save if name is not defined", function() {
+    var tut = new Tutorial(null, "", 20);
+    expect(function() { tut.save(); }).toThrow();
+  });
+
+  it("should not save if capacity is not defined", function() {
+    var tut = new Tutorial(null, "Name", null);
+    expect(function() { tut.save(); }).toThrow();
+  });
+
 });
 
 })();
