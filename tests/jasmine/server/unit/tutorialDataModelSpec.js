@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 
 describe("Tutorial", function() {
@@ -19,3 +20,5 @@ describe("Tutorial", function() {
     expect(Tutorials.insert).toHaveBeenCalledWith({name: "Tutorial 1", capacity: 20, owner: null}, jasmine.any(Function));
   });
 });
+
+})();

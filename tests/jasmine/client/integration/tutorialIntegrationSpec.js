@@ -1,3 +1,4 @@
+(function() {
 "use strict";
 
 describe("Tutorial", function() {
@@ -44,5 +45,34 @@ describe("Tutorial", function() {
     });
   });
 
+  it("should be possible to update tutorial by owner and fail otherwise", function(done) {
+    // login to system and wait for callback
+    Meteor.loginWithPassword("admin@example.com", "admin420", function(err) {
+      // create a new tuturial
+      var tut = new Tutorial(null, "Tutorial 1", 10);
+
+      // save the tuturial and use callback function to check for existence
+      var id = tut.save(function(error, result) {
+        expect(error).toBeUndefined();
+
+        Meteor.logout(function() {
+          Meteor.loginWithPassword("normal@example.com", "admin420", function(err) {
+
+            tut.save(function(error, result) {
+              expect(error.error).toBe(403);
+
+              Meteor.logout(function() {
+                done();
+              });
+
+              Tutorials.remove(id);
+            });
+          });
+        })
+      });
+    });
+  });
 
 });
+
+})();
