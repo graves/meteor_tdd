@@ -7,6 +7,8 @@ Package.describe({
 
 Package.onUse(function (api) {
 	api.use("coffeescript", ["client", "server"]);
+	api.add_files("tests/jasmine/client/integration/headerTemplateNomocksSpec.js",["client"]);
 	api.add_files("tests/jasmine/client/integration/tutorialIntegrationSpec.js",["client"]);
+	api.add_files("tests/jasmine/client/integration/tutorialsTemplateSpec.js",["client"]);
 	api.add_files("tests/jasmine/server/integration/placeholder.js",["server"]);
 });
